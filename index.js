@@ -9,6 +9,7 @@ class Juego {
     constructor() {
         this.inicializar();
         this.generarSecuencia();
+        this.siguienteNivel();
 
     }
 
@@ -23,6 +24,7 @@ class Juego {
             naranja,
             verde
         }
+        // console.log('fin de inicializar');
     }
     generarSecuencia() {
         /**
@@ -31,6 +33,49 @@ class Juego {
          * math.floor redondea hacia abajo los numeros 
          *  */
         this.secuencia = new Array(10).fill(0).map(n => Math.floor(Math.random() * 4));
+    }
+    siguienteNivel() { 
+        this.iluminarSecuencia();
+    }
+    transformarNumeroAColor(numero) {
+        switch (numero) {
+            case 0:
+                return 'celeste';
+            case 1:
+                return 'violeta';
+            case 2:
+                return 'naranja';
+            case 3:
+                return 'verde';
+
+            default:
+                break;
+        }
+    }
+    iluminarSecuencia() {
+        for (let i = 0; i < this.nivel; i++) {
+            const color = this.transformarNumeroAColor(this.secuencia[i]);
+
+            setTimeout(() => {
+                this.iluminarColor(color)
+            }, 1000 * i);
+            //Al multiplicar el tiempo por i el tiempo se va a prolongar y asi evitamos que los colores se ejecuten de una sola vez.
+        }
+    }
+    iluminarColor(color) {
+        /**
+         * Colores contiene botones del DOM, por lo que le podemos agreagar clases css para modificarlo
+         */
+        this.colores[color].classList.add('light');
+        /**
+         * Definimos el tiempo que va a tardar la funcion en ejecutarse
+         */
+        setTimeout(() => {
+            return this.apagarColor(color)
+        }, 350);
+    }
+    apagarColor(color) {
+        this.colores[color].classList.remove('light');
     }
 }
 
